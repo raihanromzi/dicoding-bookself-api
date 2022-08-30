@@ -6,7 +6,7 @@ const addBooksHandler = (request, h) => {
   const id = nanoid(16)
   const insertedAt = new Date().toISOString()
   const updatedAt = insertedAt
-  const finished = false
+  const finished = readPage === pageCount
   const newBook = {
     id,
     name,
@@ -124,6 +124,7 @@ const updateBooksById = (request, h) => {
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload
   const updatedAt = new Date().toISOString()
   const index = books.findIndex((book) => book.id === bookId)
+  const finished = readPage === pageCount
 
   if (!name) {
     const response = h.response({
@@ -154,6 +155,7 @@ const updateBooksById = (request, h) => {
       pageCount,
       readPage,
       reading,
+      finished,
       updatedAt
     }
     const response = h.response({
